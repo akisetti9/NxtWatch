@@ -1,0 +1,16 @@
+.navbar-sm-moon-size {
+  width: 20px;
+}
+.navbar-sm-sun-size {
+  color: #ffffff;
+  width: 20px;
+}
+.navbar-lg-moon-size {
+  scale: 200%;
+  width: 40px;
+}
+.navbar-lg-sun-size {
+  color: #ffffff;
+  scale: 200%;
+  width: 40px;
+}

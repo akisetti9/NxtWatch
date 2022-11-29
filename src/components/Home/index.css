@@ -1,0 +1,15 @@
+.selected-filter-icon {
+  color: #ff0000;
+}
+.de-selected-filter-icon {
+  color: #475569;
+}
+.search-icon {
+  color: #475569;
+  width: 20px;
+  height: 20px;
+}
+.lading-logo {
+  color: #ff0000;
+  scale: 200%;
+}
