@@ -1,0 +1,11 @@
+.failure-img {
+  width: 500px;
+}
+@media screen and (max-width: 768px) {
+  .failure-img {
+    width: 300px;
+  }
+}
+.video-link {
+  text-decoration: none;
+}

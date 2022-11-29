@@ -4,6 +4,7 @@ export const NavHeader = styled.nav`
   background-color: ${props => (props.isDarkMode ? '#1e293b' : '#ffffff')};
   color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
   display: flex;
+  padding-bottom: 12px;
   justify-content: center;
   border-bottom: 1px solid rgb(243, 243, 243);
   @media screen and (max-width: 767px) {
@@ -146,4 +147,38 @@ export const NavLgBtn = styled.button`
   @media screen and (max-width: 768px) {
     display: none;
   }
+`
+export const PopupContainer = styled.div`
+  width: 320px;
+  height: 150px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: ${props => (props.isDarkMode ? '#000000' : '#ffffff')};
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+`
+export const AuthorizationBtns = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+`
+export const CancelBtn = styled.button`
+  width: 80px;
+  margin: 8px;
+  padding: 8px;
+  border-style: solid;
+  background-color: ${props => (props.isDarkMode ? '#000000' : '#ffffff')};
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+  border-color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+  border-radius: 4px;
+`
+export const ConfirmBtn = styled.button`
+  width: 80px;
+  margin: 8px;
+  padding: 8px;
+  border-style: none;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 4px;
 `

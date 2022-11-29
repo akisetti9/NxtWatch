@@ -5,53 +5,18 @@ export const MainContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   margin: auto;
-  padding-top: 10px;
   padding-bottom: 50px;
   width: 100%;
   background-color: ${props => (props.isDarkMode ? '#000000' : '#ffffff')};
   }
 `
-export const FiltersList = styled.ul`
-  width: 250px;
-  margin-top: 0px;
-  margin-left: -40px;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`
-export const FilterListItem = styled.li`
-  width: 100%;
-`
-export const FilterListItemButton = styled.button`
-  border: none;
-  background-color: ${props => props.bgColor};
-  color: ${props => props.color};
-  width: 100%;
-  padding-left: 25px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  text-align: center;
-  align-items: center;
-`
-export const FiltersListItemName = styled.p`
-  margin-left: 25px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-`
+
 export const HomeContainer = styled.div`
   width: 85%;
-  margin-left: 20px;
-  margin-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: self-start;
+  background-color: ${props => (props.isDarkMode ? '#181818' : '#ffffff')};
 `
 export const BannerContainer = styled.div`
   width: 100%;
@@ -73,7 +38,7 @@ export const LogoAndClose = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-right: 64px;
+  padding-right: 12px;
   @media screen and (max-width: 768px) {
     padding-right: 16px;
   }
@@ -92,7 +57,7 @@ export const CloseButton = styled.button`
   background-color: transparent;
   cursor: pointer;
 `
-export const BannerHeading = styled.h1`
+export const BannerHeading = styled.p`
   width: 60%;
   @media screen and (max-width: 768px) {
     width: 90%;
@@ -158,7 +123,7 @@ export const VideosList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-left: -50px;
+  margin-left: -30px;
 `
 export const VideoContainer = styled.li`
   width: 300px;
@@ -309,4 +274,32 @@ export const GamingCount = styled.p`
   width: 100%;
   margin: 0px;
   color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+`
+export const FailureContainer = styled.div`
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+export const FailureImg = styled.img`
+  width: 500px;
+  @media screen and (max-width: 768px) {
+    width: 300px;
+  }
+`
+export const FailureHeading = styled.h1`
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+`
+export const FailureMsg = styled.p`
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+`
+export const RetryBtn = styled.button`
+  width: 100px;
+  padding: 8px;
+  border-style: none;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #4f46e5;
 `

@@ -2,8 +2,7 @@ import {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
-import {AiOutlineClose} from 'react-icons/ai'
-import {BsSearch} from 'react-icons/bs'
+import {HiFire} from 'react-icons/hi'
 import Header from '../Header'
 
 import Filters from '../Filters'
@@ -11,32 +10,26 @@ import Filters from '../Filters'
 import './index.css'
 import {
   MainContainer,
-  HomeContainer,
-  BannerContainer,
-  LogoAndClose,
-  WebsiteLogo,
-  CloseButton,
-  BannerHeading,
-  GetItNow,
-  SearchContainer,
-  SearchInputContainer,
-  SearchInput,
-  SearchButton,
-  VideosList,
-  VideoContainer,
-  ThumbnailImage,
-  ProfileDetailsContainer,
-  ProfileImage,
-  DetailsContainer,
-  TitleHeading,
-  ChannelName,
-  CountAndTime,
+  TrendingContainer,
+  LandingHeader,
+  LandingImgContainer,
+  LandingTitle,
+  TrendingVideosList,
+  TrendingVideoContainer,
+  TrendingThumbnailImage,
+  TrendingProfileDetailsContainer,
+  TrendingProfileImage,
+  TrendingDetailsContainer,
+  TrendingTitleHeading,
+  TrendingChannelName,
+  TrendingCountAndTime,
   FailureContainer,
   FailureImg,
   FailureHeading,
   FailureMsg,
   RetryBtn,
 } from './styledComponents'
+
 import NxtWatchContext from '../../context/NxtWatchContext'
 
 const apiStatusConstants = {
@@ -46,32 +39,29 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-class Home extends Component {
+class Trending extends Component {
   state = {
     apiStatus: apiStatusConstants.initial,
-    showBanner: true,
-    searchInput: '',
     videosList: [],
   }
 
   componentDidMount() {
-    this.getHomeVideosData()
+    this.getTrendingVideosData()
   }
 
-  getHomeVideosData = async () => {
+  getTrendingVideosData = async () => {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
     const jwtToken = Cookies.get('jwt_token')
-    const {searchInput} = this.state
-    const homeVideosApiUrl = `https://apis.ccbp.in/videos/all?search=${searchInput}`
+    const trendingVideosApiUrl = `https://apis.ccbp.in/videos/trending`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
       method: 'GET',
     }
-    const response = await fetch(homeVideosApiUrl, options)
+    const response = await fetch(trendingVideosApiUrl, options)
     if (response.ok) {
       const fetchedData = await response.json()
       const updatedData = fetchedData.videos.map(video => ({
@@ -96,46 +86,8 @@ class Home extends Component {
     }
   }
 
-  onCloseBanner = () => {
-    this.setState({showBanner: false})
-  }
-
-  onEnterSearchInput = event => {
-    const {searchInput} = this.state
-    if (event.key === 'Enter') {
-      console.log(searchInput)
-      this.getData()
-    }
-  }
-
-  onChangeSearchInput = event => {
-    this.setState({searchInput: event.target.value})
-  }
-
-  onClickSearchButton = () => {
-    const {searchInput} = this.state
-    console.log(searchInput)
-    this.getData()
-  }
-
-  renderSearchInput = () => {
-    const {searchInput} = this.state
-    return (
-      <SearchContainer>
-        <SearchInputContainer>
-          <SearchInput
-            value={searchInput}
-            type="search"
-            placeholder="Search"
-            onChange={this.onChangeSearchInput}
-            onKeyDown={this.onEnterSearchInput}
-          />
-        </SearchInputContainer>
-        <SearchButton type="button" onClick={this.onClickSearchButton}>
-          <BsSearch className="search-icon" />
-        </SearchButton>
-      </SearchContainer>
-    )
+  onClickRetry = () => {
+    this.getTrendingVideosData()
   }
 
   renderLoadingView = () => (
@@ -169,67 +121,58 @@ class Home extends Component {
     </FailureContainer>
   )
 
-  renderHomeVideosView = isDarkMode => {
-    const {showBanner, videosList} = this.state
+  renderTrendingVideosView = isDarkMode => {
+    const {videosList} = this.state
     console.log(videosList)
     return (
       <>
-        <BannerContainer showBanner={showBanner}>
-          <LogoAndClose>
-            <WebsiteLogo
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-              alt="website logo"
-            />
-            <CloseButton
-              type="button"
-              data-testid="close"
-              onClick={this.onCloseBanner}
-            >
-              <AiOutlineClose />
-            </CloseButton>
-          </LogoAndClose>
-          <BannerHeading>
-            Buy Nxt Watch Premium prepaid plans with UPI
-          </BannerHeading>
-          <GetItNow type="button">GET IT NOW</GetItNow>
-        </BannerContainer>
-        {this.renderSearchInput()}
-        <VideosList>
-          {videosList.map(each => this.renderHomeEachVideo({each, isDarkMode}))}
-        </VideosList>
+        <LandingHeader>
+          <LandingImgContainer>
+            <HiFire className="lading-logo" />
+          </LandingImgContainer>
+          <LandingTitle>Trending</LandingTitle>
+        </LandingHeader>
+        <TrendingVideosList>
+          {videosList.map(each =>
+            this.renderTrendingEachVideo({each, isDarkMode}),
+          )}
+        </TrendingVideosList>
       </>
     )
   }
 
-  renderHomeEachVideo = props => {
+  renderTrendingEachVideo = props => {
     const {each, isDarkMode} = props
     const {id, title, thumbnailUrl, channel, viewCount, publishedAt} = each
     const {name, profileImageUrl} = channel
     return (
       <Link to={`/videos/${id}`} className="video-link">
-        <VideoContainer key={id}>
-          <ThumbnailImage src={thumbnailUrl} alt={title} />
-          <ProfileDetailsContainer>
-            <ProfileImage src={profileImageUrl} alt={name} />
-            <DetailsContainer>
-              <TitleHeading isDarkMode={isDarkMode}>{title}</TitleHeading>
-              <ChannelName isDarkMode={isDarkMode}>{name}</ChannelName>
-              <CountAndTime isDarkMode={isDarkMode}>
+        <TrendingVideoContainer key={id}>
+          <TrendingThumbnailImage src={thumbnailUrl} alt="video thumbnail" />
+          <TrendingProfileDetailsContainer>
+            <TrendingProfileImage src={profileImageUrl} alt={name} />
+            <TrendingDetailsContainer>
+              <TrendingTitleHeading isDarkMode={isDarkMode}>
+                {title}
+              </TrendingTitleHeading>
+              <TrendingChannelName isDarkMode={isDarkMode}>
+                {name}
+              </TrendingChannelName>
+              <TrendingCountAndTime isDarkMode={isDarkMode}>
                 {viewCount} views . {publishedAt}
-              </CountAndTime>
-            </DetailsContainer>
-          </ProfileDetailsContainer>
-        </VideoContainer>
+              </TrendingCountAndTime>
+            </TrendingDetailsContainer>
+          </TrendingProfileDetailsContainer>
+        </TrendingVideoContainer>
       </Link>
     )
   }
 
   renderResult = isDarkMode => {
     const {apiStatus} = this.state
-
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderHomeVideosView(isDarkMode)
+        return this.renderTrendingVideosView(isDarkMode)
       case apiStatusConstants.failure:
         return this.renderFailureView(isDarkMode)
       case apiStatusConstants.inProgress:
@@ -240,8 +183,6 @@ class Home extends Component {
   }
 
   render() {
-    const {selectedFilter} = this.state
-    console.log(selectedFilter)
     return (
       <>
         <Header />
@@ -251,9 +192,9 @@ class Home extends Component {
             {value => {
               const {isDarkMode} = value
               return (
-                <HomeContainer data-testid="home" isDarkMode={isDarkMode}>
+                <TrendingContainer data-testid="gaming" isDarkMode={isDarkMode}>
                   {this.renderResult(isDarkMode)}
-                </HomeContainer>
+                </TrendingContainer>
               )
             }}
           </NxtWatchContext.Consumer>
@@ -263,4 +204,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default Trending

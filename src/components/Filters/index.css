@@ -1,0 +1,10 @@
+.selected-filter-icon {
+  color: #ff0000;
+}
+.de-selected-filter-icon {
+  color: #475569;
+}
+.nav-link {
+  text-decoration: none;
+  color: #475569;
+}

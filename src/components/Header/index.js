@@ -1,4 +1,5 @@
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
+import Popup from 'reactjs-popup'
 import Cookies from 'js-cookie'
 import {FaMoon} from 'react-icons/fa'
 import {FiSun} from 'react-icons/fi'
@@ -19,6 +20,10 @@ import {
   NavBarImg,
   NavbarLgProfileThumbnailSize,
   NavLgBtn,
+  PopupContainer,
+  AuthorizationBtns,
+  CancelBtn,
+  ConfirmBtn,
 } from './styledComponents'
 
 // import CartContext from '../../context/CartContext'
@@ -27,7 +32,7 @@ import './index.css'
 import NxtWatchContext from '../../context/NxtWatchContext'
 
 const Header = props => {
-  const onClickLogout = () => {
+  const onConfirmLogout = () => {
     const {history} = props
     Cookies.remove('jwt_token')
     history.replace('/login')
@@ -46,10 +51,16 @@ const Header = props => {
           <NavHeader isDarkMode={isDarkMode}>
             <NavContent isDarkMode={isDarkMode}>
               <NavBarMobileLogoContainer>
-                <WebsiteLogo src={websiteLogo} alt="website logo" />
+                <Link to="/" className="nav-link">
+                  <WebsiteLogo src={websiteLogo} alt="website logo" />
+                </Link>
                 <NavMenuListMobile>
                   <NavMenuItemMobile>
-                    <NavMobileBtn type="button" onClick={onChangeTheme}>
+                    <NavMobileBtn
+                      data-testid="theme"
+                      type="button"
+                      onClick={onChangeTheme}
+                    >
                       {isDarkMode ? (
                         <FiSun className="navbar-sm-sun-size" />
                       ) : (
@@ -67,12 +78,35 @@ const Header = props => {
                     </NavMobileBtn>
                   </NavMenuItemMobile>
                   <NavMenuItemMobile>
-                    <NavMobileBtn type="button" onClick={onClickLogout}>
-                      <NavBarImg
-                        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-log-out-img.png"
-                        alt="nav logout"
-                      />
-                    </NavMobileBtn>
+                    <Popup
+                      modal
+                      trigger={
+                        <NavMobileBtn type="button">
+                          <NavBarImg
+                            src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-log-out-img.png"
+                            alt="nav logout"
+                          />
+                        </NavMobileBtn>
+                      }
+                    >
+                      {close => (
+                        <PopupContainer isDarkMode={isDarkMode}>
+                          <p>Are you sure, you want to logout?</p>
+                          <AuthorizationBtns>
+                            <CancelBtn
+                              type="button"
+                              isDarkMode={isDarkMode}
+                              onClick={() => close()}
+                            >
+                              Cancel
+                            </CancelBtn>
+                            <ConfirmBtn type="button" onClick={onConfirmLogout}>
+                              Confirm
+                            </ConfirmBtn>
+                          </AuthorizationBtns>
+                        </PopupContainer>
+                      )}
+                    </Popup>
                   </NavMenuItemMobile>
                 </NavMenuListMobile>
               </NavBarMobileLogoContainer>
@@ -81,7 +115,11 @@ const Header = props => {
                 <WebsiteLogo src={websiteLogo} alt="website logo" />
                 <NavMenu>
                   <NavMenuItem>
-                    <NavLgBtn onClick={onChangeTheme}>
+                    <NavLgBtn
+                      data-testid="theme"
+                      type="button"
+                      onClick={onChangeTheme}
+                    >
                       {isDarkMode ? (
                         <FiSun className="navbar-lg-sun-size" />
                       ) : (
@@ -98,13 +136,32 @@ const Header = props => {
                     </NavLgBtn>
                   </NavMenuItem>
                   <NavMenuItem>
-                    <LogoutDesktopBtn
-                      isDarkMode={isDarkMode}
-                      type="button"
-                      onClick={onClickLogout}
+                    <Popup
+                      modal
+                      trigger={
+                        <LogoutDesktopBtn isDarkMode={isDarkMode} type="button">
+                          Logout
+                        </LogoutDesktopBtn>
+                      }
                     >
-                      Logout
-                    </LogoutDesktopBtn>
+                      {close => (
+                        <PopupContainer isDarkMode={isDarkMode}>
+                          <p>Are you sure, you want to logout?</p>
+                          <AuthorizationBtns>
+                            <CancelBtn
+                              type="button"
+                              isDarkMode={isDarkMode}
+                              onClick={() => close()}
+                            >
+                              Cancel
+                            </CancelBtn>
+                            <ConfirmBtn type="button" onClick={onConfirmLogout}>
+                              Confirm
+                            </ConfirmBtn>
+                          </AuthorizationBtns>
+                        </PopupContainer>
+                      )}
+                    </Popup>
                   </NavMenuItem>
                 </NavMenu>
               </NavBarLargeContainer>
