@@ -9,6 +9,7 @@ import Filters from '../Filters'
 
 import './index.css'
 import {
+  OuterContainer,
   MainContainer,
   TrendingContainer,
   LandingHeader,
@@ -115,7 +116,11 @@ class Trending extends Component {
       <FailureMsg isDarkMode={isDarkMode}>
         We are having some trouble to complete your request. Please try again.
       </FailureMsg>
-      <RetryBtn type="button" onClick={this.onClickRetry}>
+      <RetryBtn
+        data-testid="retryButton"
+        type="button"
+        onClick={this.onClickRetry}
+      >
         Retry
       </RetryBtn>
     </FailureContainer>
@@ -146,11 +151,11 @@ class Trending extends Component {
     const {id, title, thumbnailUrl, channel, viewCount, publishedAt} = each
     const {name, profileImageUrl} = channel
     return (
-      <Link to={`/videos/${id}`} className="video-link">
+      <Link to={`/videos/${id}`} key={id} className="video-link">
         <TrendingVideoContainer key={id}>
           <TrendingThumbnailImage src={thumbnailUrl} alt="video thumbnail" />
           <TrendingProfileDetailsContainer>
-            <TrendingProfileImage src={profileImageUrl} alt={name} />
+            <TrendingProfileImage src={profileImageUrl} alt="channel logo" />
             <TrendingDetailsContainer>
               <TrendingTitleHeading isDarkMode={isDarkMode}>
                 {title}
@@ -184,22 +189,22 @@ class Trending extends Component {
 
   render() {
     return (
-      <>
-        <Header />
-        <MainContainer>
-          <Filters />
-          <NxtWatchContext.Consumer>
-            {value => {
-              const {isDarkMode} = value
-              return (
-                <TrendingContainer data-testid="gaming" isDarkMode={isDarkMode}>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {isDarkMode} = value
+          return (
+            <OuterContainer data-testid="trending" isDarkMode={isDarkMode}>
+              <Header />
+              <MainContainer>
+                <Filters />
+                <TrendingContainer isDarkMode={isDarkMode}>
                   {this.renderResult(isDarkMode)}
                 </TrendingContainer>
-              )
-            }}
-          </NxtWatchContext.Consumer>
-        </MainContainer>
-      </>
+              </MainContainer>
+            </OuterContainer>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

@@ -1,22 +1,40 @@
 import styled from 'styled-components'
 
+export const OuterContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${props => (props.isDarkMode ? '#181818' : '#ffffff')};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   margin: auto;
-  padding-bottom: 50px;
+  margin-bottom: 50px;
   width: 100%;
+  height: auto;
+  min-height: 100vh;
   background-color: ${props => (props.isDarkMode ? '#000000' : '#ffffff')};
+  @media screen and (max-width: 768px) {
+    justify-content: center;
   }
 `
 
 export const HomeContainer = styled.div`
   width: 85%;
+  margin-top: 60px;
+  margin-left: 250px;
   display: flex;
   flex-direction: column;
   justify-content: self-start;
   background-color: ${props => (props.isDarkMode ? '#181818' : '#ffffff')};
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-left: 0px;
+  }
 `
 export const BannerContainer = styled.div`
   width: 100%;
@@ -77,6 +95,7 @@ export const GetItNow = styled.button`
 export const SearchContainer = styled.div`
   height: 36px;
   margin-top: 24px;
+  margin-left: 8px;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -123,7 +142,7 @@ export const VideosList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-left: -30px;
+  margin-left: -40px;
 `
 export const VideoContainer = styled.li`
   width: 300px;
@@ -154,7 +173,7 @@ export const DetailsContainer = styled.div`
   margin: 0px;
   padding-left: 4px;
 `
-export const TitleHeading = styled.h1`
+export const TitleHeading = styled.p`
   width: 100%;
   font-size: 15px;
   margin: 0px;
@@ -192,66 +211,6 @@ export const LandingImgContainer = styled.div`
 `
 export const LandingTitle = styled.h1`
   margin-left: 24px;
-`
-export const TrendingVideosList = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-left: -50px;
-`
-export const TrendingVideoContainer = styled.li`
-  width: 100%;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  @media screen and (max-width: 768px) {
-    align-items: center;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-`
-export const TrendingThumbnailImage = styled.img`
-  width: 350px;
-`
-export const TrendingProfileDetailsContainer = styled.div`
-  width: 100%;
-  margin-top: 8px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-`
-export const TrendingProfileImage = styled.img`
-  width: 64px;
-  height: 64px;
-  border-radius: 32px;
-  @media screen and (min-width: 768px) {
-    display: none;
-  }
-`
-export const TrendingDetailsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin: 8px;
-`
-export const TrendingTitleHeading = styled.h1`
-  width: 100%;
-  font-size: 24px;
-  margin: 0px;
-  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
-`
-export const TrendingChannelName = styled.p`
-  width: 100%;
-  margin: 0px;
-  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
-`
-export const TrendingCountAndTime = styled.p`
-  width: 100%;
-  margin: 0px;
-  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
 `
 export const GamingVideoContainer = styled.li`
   width: 300px;

@@ -3,21 +3,30 @@ import styled from 'styled-components'
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   margin: auto;
-  padding-bottom: 50px;
   width: 100%;
+  height: auto;
   min-height: 100vh;
-  background-color: ${props => (props.isDarkMode ? '#000000' : '#ffffff')};
+  @media screen and (max-width: 768px) {
+    justify-content: center;
   }
 `
+
 export const VideoItemContainer = styled.div`
-  width: 85%;
+  width: 1800px;
+  max-width: 100vw;
+  margin-top: 60px;
+  padding-left: 250px;
   display: flex;
-  align-items: center;
   flex-direction: column;
-  justify-content: flex-start;
-  background-color: ${props => (props.isDarkMode ? '#0f0f0f' : '#ffffff')};
+  justify-content: self-start;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+  background-color: ${props => (props.isDarkMode ? '#181818' : '#ffffff')};
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding-left: 0px;
+  }
 `
 export const FailureContainer = styled.div`
   width: 100%;
@@ -47,6 +56,11 @@ export const RetryBtn = styled.button`
   color: #ffffff;
   background-color: #4f46e5;
 `
+export const PlayerContainer = styled.div`
+  width: 100%;
+  padding: 8px;
+  align-items: center;
+`
 export const DetailsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -59,10 +73,11 @@ export const CountAndDate = styled.div`
   justify-content: flex-start;
 `
 export const LikeAndSave = styled.div`
-  width: 250px;
+  width: 200px;
+  align-items: center;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-around;
 `
 export const DescriptionContainer = styled.div`
   width: 100%;
@@ -79,4 +94,42 @@ export const Description = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+`
+export const LikedButton = styled.button`
+  background-color: transparent;
+  border-style: none;
+  color: #2563eb;
+  border-radius: 8px;
+  margin: 0px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  cursor: pointer;
+`
+export const LikeButton = styled.button`
+  background-color: transparent;
+  border-style: none;
+  color: ${props => (props.isDarkMode ? '#64748b' : '#64748b')};
+  border-radius: 8px;
+  margin: 0px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  cursor: pointer;
+`
+export const ReactPlayerContainer = styled.div`
+  width: 80%;
+  scale: 100%;
+  //   display: flex;
+  //   flex-direction: row;
+  //   justify-content: center;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `

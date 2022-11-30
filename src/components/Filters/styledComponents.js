@@ -38,16 +38,26 @@ export const SlideContainer = styled.div`
   background-color: ${props => (props.isDarkMode ? '#1e293b' : '#ffffff')};
   color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
   width: 250px;
-  display: flex;
+  margin-top: 60px;
+  height: 100vh;
+  display: block;
+  position: fixed;
   flex-direction: column;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `
 export const FooterContainer = styled.div`
+  margin-top: 350px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   text-align: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    margin-top: 0px;
+  }
 `
 export const LogoContainer = styled.div`
   display: flex;

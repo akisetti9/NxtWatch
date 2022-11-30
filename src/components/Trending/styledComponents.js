@@ -1,22 +1,41 @@
 import styled from 'styled-components'
 
+export const OuterContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${props => (props.isDarkMode ? '#0f0f0f' : '#ffffff')};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   margin: auto;
   padding-bottom: 50px;
   width: 100%;
+  height: auto;
+  min-height: 100vh;
   background-color: ${props => (props.isDarkMode ? '#000000' : '#ffffff')};
+  @media screen and (max-width: 768px) {
+  justify-content: center;
+  }
   }
 `
 
 export const TrendingContainer = styled.div`
   width: 85%;
+  margin-top: 60px;
+  margin-left: 250px;
   display: flex;
   flex-direction: column;
   justify-content: self-start;
-  background-color: ${props => (props.isDarkMode ? '#0f0f0f' : '#ffffff')};
+  background-color: ${props => (props.isDarkMode ? '#181818' : '#ffffff')};
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-left: 0px;
+  }
 `
 export const LandingHeader = styled.div`
   width: 100%;

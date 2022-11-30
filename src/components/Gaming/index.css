@@ -9,3 +9,11 @@
 .video-link {
   text-decoration: none;
 }
+.retry-button {
+  width: 100px;
+  padding: 8px;
+  border-style: none;
+  border-radius: 4px;
+  color: #ffffff;
+  background-color: #4f46e5;
+}

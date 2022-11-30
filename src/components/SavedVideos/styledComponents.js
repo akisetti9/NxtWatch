@@ -23,7 +23,7 @@ export const MainContainer = styled.div`
   }
 `
 
-export const GamingContainer = styled.div`
+export const SavedContainer = styled.div`
   width: 85%;
   margin-top: 60px;
   margin-left: 250px;
@@ -35,13 +35,6 @@ export const GamingContainer = styled.div`
     width: 100%;
     margin-left: 0px;
   }
-`
-export const VideosList = styled.ul`
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-left: -30px;
 `
 export const LandingHeader = styled.div`
   width: 100%;
@@ -66,30 +59,70 @@ export const LandingImgContainer = styled.div`
 export const LandingTitle = styled.h1`
   margin-left: 24px;
 `
-export const GamingVideoContainer = styled.li`
-  width: 300px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+export const SavedVideosList = styled.ul`
+  list-style: none;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin-left: -30px;
 `
-export const GamingThumbnailImage = styled.img`
+export const SavedVideoContainer = styled.li`
   width: 100%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  @media screen and (max-width: 768px) {
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 `
-export const GamingTitleHeading = styled.p`
+export const SavedThumbnailImage = styled.img`
+  width: 350px;
+`
+export const SavedProfileDetailsContainer = styled.div`
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+`
+export const SavedProfileImage = styled.img`
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`
+export const SavedDetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 8px;
+`
+export const SavedTitleHeading = styled.p`
   width: 100%;
   font-size: 24px;
   margin: 0px;
   color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
 `
-export const GamingCount = styled.p`
+export const SavedChannelName = styled.p`
+  width: 100%;
+  margin: 0px;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
+`
+export const SavedCountAndTime = styled.p`
   width: 100%;
   margin: 0px;
   color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
 `
 export const FailureContainer = styled.div`
   width: 100%;
+  height: 100%;
+  padding-bottom: 80px;
   align-items: center;
   text-align: center;
   display: flex;
@@ -97,6 +130,7 @@ export const FailureContainer = styled.div`
   justify-content: center;
 `
 export const FailureImg = styled.img`
+  margin-top: 80px;
   width: 500px;
   @media screen and (max-width: 768px) {
     width: 300px;

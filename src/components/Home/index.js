@@ -10,6 +10,7 @@ import Filters from '../Filters'
 
 import './index.css'
 import {
+  OuterContainer,
   MainContainer,
   HomeContainer,
   BannerContainer,
@@ -51,6 +52,7 @@ class Home extends Component {
     apiStatus: apiStatusConstants.initial,
     showBanner: true,
     searchInput: '',
+    videosCount: 0,
     videosList: [],
   }
 
@@ -74,21 +76,31 @@ class Home extends Component {
     const response = await fetch(homeVideosApiUrl, options)
     if (response.ok) {
       const fetchedData = await response.json()
-      const updatedData = fetchedData.videos.map(video => ({
-        id: video.id,
-        title: video.title,
-        thumbnailUrl: video.thumbnail_url,
-        channel: {
-          name: video.channel.name,
-          profileImageUrl: video.channel.profile_image_url,
-        },
-        viewCount: video.view_count,
-        publishedAt: video.published_at,
-      }))
-      this.setState({
-        videosList: updatedData,
-        apiStatus: apiStatusConstants.success,
-      })
+      console.log(fetchedData)
+      if (fetchedData.total !== 0) {
+        const updatedData = fetchedData.videos.map(video => ({
+          id: video.id,
+          title: video.title,
+          thumbnailUrl: video.thumbnail_url,
+          channel: {
+            name: video.channel.name,
+            profileImageUrl: video.channel.profile_image_url,
+          },
+          viewCount: video.view_count,
+          publishedAt: video.published_at,
+        }))
+        this.setState({
+          videosCount: fetchedData.total,
+          videosList: updatedData,
+          apiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({
+          videosCount: fetchedData.total,
+          videosList: [],
+          apiStatus: apiStatusConstants.success,
+        })
+      }
     } else {
       this.setState({
         apiStatus: apiStatusConstants.failure,
@@ -101,10 +113,8 @@ class Home extends Component {
   }
 
   onEnterSearchInput = event => {
-    const {searchInput} = this.state
     if (event.key === 'Enter') {
-      console.log(searchInput)
-      this.getData()
+      this.getHomeVideosData()
     }
   }
 
@@ -113,9 +123,11 @@ class Home extends Component {
   }
 
   onClickSearchButton = () => {
-    const {searchInput} = this.state
-    console.log(searchInput)
-    this.getData()
+    this.getHomeVideosData()
+  }
+
+  onClickRetry = () => {
+    this.setState({searchInput: ''}, this.getHomeVideosData)
   }
 
   renderSearchInput = () => {
@@ -131,7 +143,11 @@ class Home extends Component {
             onKeyDown={this.onEnterSearchInput}
           />
         </SearchInputContainer>
-        <SearchButton type="button" onClick={this.onClickSearchButton}>
+        <SearchButton
+          data-testid="searchButton"
+          type="button"
+          onClick={this.onClickSearchButton}
+        >
           <BsSearch className="search-icon" />
         </SearchButton>
       </SearchContainer>
@@ -163,40 +179,74 @@ class Home extends Component {
       <FailureMsg isDarkMode={isDarkMode}>
         We are having some trouble to complete your request. Please try again.
       </FailureMsg>
+      <RetryBtn
+        data-testid="retryButton"
+        type="button"
+        onClick={this.onClickRetry}
+      >
+        Retry
+      </RetryBtn>
+    </FailureContainer>
+  )
+
+  renderNoVideosView = isDarkMode => (
+    <FailureContainer data-testid="noVideos">
+      <FailureImg
+        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+        alt="no videos"
+      />
+      <FailureHeading isDarkMode={isDarkMode}>
+        No Search results found
+      </FailureHeading>
+      <FailureMsg isDarkMode={isDarkMode}>
+        Try different key words or remove search filter
+      </FailureMsg>
       <RetryBtn type="button" onClick={this.onClickRetry}>
         Retry
       </RetryBtn>
     </FailureContainer>
   )
 
+  renderBanner = () => {
+    const {showBanner} = this.state
+    return (
+      <BannerContainer data-testid="banner" showBanner={showBanner}>
+        <LogoAndClose>
+          <WebsiteLogo
+            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+            alt="nxt watch logo"
+          />
+          <CloseButton
+            type="button"
+            data-testid="close"
+            onClick={this.onCloseBanner}
+          >
+            <AiOutlineClose />
+          </CloseButton>
+        </LogoAndClose>
+        <BannerHeading>
+          Buy Nxt Watch Premium prepaid plans with UPI
+        </BannerHeading>
+        <GetItNow type="button">GET IT NOW</GetItNow>
+      </BannerContainer>
+    )
+  }
+
   renderHomeVideosView = isDarkMode => {
-    const {showBanner, videosList} = this.state
-    console.log(videosList)
+    const {videosCount, videosList} = this.state
     return (
       <>
-        <BannerContainer showBanner={showBanner}>
-          <LogoAndClose>
-            <WebsiteLogo
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-              alt="website logo"
-            />
-            <CloseButton
-              type="button"
-              data-testid="close"
-              onClick={this.onCloseBanner}
-            >
-              <AiOutlineClose />
-            </CloseButton>
-          </LogoAndClose>
-          <BannerHeading>
-            Buy Nxt Watch Premium prepaid plans with UPI
-          </BannerHeading>
-          <GetItNow type="button">GET IT NOW</GetItNow>
-        </BannerContainer>
+        {this.renderBanner()}
         {this.renderSearchInput()}
-        <VideosList>
-          {videosList.map(each => this.renderHomeEachVideo({each, isDarkMode}))}
-        </VideosList>
+        {videosCount === 0 ? (
+          this.renderNoVideosView(isDarkMode)
+        ) : (
+          <VideosList>
+            {videosList.map(each =>
+              this.renderHomeEachVideo({each, isDarkMode}),
+            )}
+          </VideosList>
+        )}
       </>
     )
   }
@@ -206,11 +256,11 @@ class Home extends Component {
     const {id, title, thumbnailUrl, channel, viewCount, publishedAt} = each
     const {name, profileImageUrl} = channel
     return (
-      <Link to={`/videos/${id}`} className="video-link">
+      <Link to={`/videos/${id}`} key={id} className="video-link">
         <VideoContainer key={id}>
-          <ThumbnailImage src={thumbnailUrl} alt={title} />
+          <ThumbnailImage src={thumbnailUrl} alt="video thumbnail" />
           <ProfileDetailsContainer>
-            <ProfileImage src={profileImageUrl} alt={name} />
+            <ProfileImage src={profileImageUrl} alt="channel logo" />
             <DetailsContainer>
               <TitleHeading isDarkMode={isDarkMode}>{title}</TitleHeading>
               <ChannelName isDarkMode={isDarkMode}>{name}</ChannelName>
@@ -240,25 +290,23 @@ class Home extends Component {
   }
 
   render() {
-    const {selectedFilter} = this.state
-    console.log(selectedFilter)
     return (
-      <>
-        <Header />
-        <MainContainer>
-          <Filters />
-          <NxtWatchContext.Consumer>
-            {value => {
-              const {isDarkMode} = value
-              return (
-                <HomeContainer data-testid="home" isDarkMode={isDarkMode}>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {isDarkMode} = value
+          return (
+            <OuterContainer data-testid="home" isDarkMode={isDarkMode}>
+              <Header />
+              <MainContainer>
+                <Filters />
+                <HomeContainer isDarkMode={isDarkMode}>
                   {this.renderResult(isDarkMode)}
                 </HomeContainer>
-              )
-            }}
-          </NxtWatchContext.Consumer>
-        </MainContainer>
-      </>
+              </MainContainer>
+            </OuterContainer>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

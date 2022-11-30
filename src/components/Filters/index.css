@@ -8,3 +8,6 @@
   text-decoration: none;
   color: #475569;
 }
+.sample {
+  display: table-column-group;
+}

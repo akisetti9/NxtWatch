@@ -100,16 +100,20 @@ const Filters = () => (
                 </FilterListItemButton>
               </FilterListItem>
             </Link>
-            <FilterListItem>
-              <FilterListItemButton
-                color={checkForSelectedColor('Saved Videos')}
-                bgColor={checkForSelectedBgColor('Saved Videos')}
-                onClick={onChangeFilter}
-              >
-                <MdPlaylistAdd className={selectedIconClass('Saved Videos')} />
-                <FiltersListItemName>Saved Videos</FiltersListItemName>
-              </FilterListItemButton>
-            </FilterListItem>
+            <Link to="/saved-videos" className="nav-link">
+              <FilterListItem>
+                <FilterListItemButton
+                  color={checkForSelectedColor('Saved Videos')}
+                  bgColor={checkForSelectedBgColor('Saved Videos')}
+                  onClick={onChangeFilter}
+                >
+                  <MdPlaylistAdd
+                    className={selectedIconClass('Saved Videos')}
+                  />
+                  <FiltersListItemName>Saved Videos</FiltersListItemName>
+                </FilterListItemButton>
+              </FilterListItem>
+            </Link>
           </FiltersList>
 
           <FooterContainer>
@@ -128,7 +132,7 @@ const Filters = () => (
                 alt="linked in logo"
               />
             </LogoContainer>
-            <p>Enjoy! Now to see your channels and recommendation!</p>
+            <p>Enjoy! Now to see your channels and recommendations!</p>
           </FooterContainer>
         </SlideContainer>
       )

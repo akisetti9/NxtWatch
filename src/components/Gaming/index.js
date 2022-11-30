@@ -9,6 +9,7 @@ import Filters from '../Filters'
 
 import './index.css'
 import {
+  OuterContainer,
   MainContainer,
   GamingContainer,
   VideosList,
@@ -105,7 +106,11 @@ class Gaming extends Component {
       <FailureMsg isDarkMode={isDarkMode}>
         We are having some trouble to complete your request. Please try again.
       </FailureMsg>
-      <RetryBtn type="button" onClick={this.onClickRetry}>
+      <RetryBtn
+        data-testid="retryButton"
+        type="button"
+        onClick={this.onClickRetry}
+      >
         Retry
       </RetryBtn>
     </FailureContainer>
@@ -135,7 +140,7 @@ class Gaming extends Component {
     const {each, isDarkMode} = props
     const {id, title, thumbnailUrl, viewCount} = each
     return (
-      <Link to={`/videos/${id}`} className="video-link">
+      <Link to={`/videos/${id}`} key={id} className="video-link">
         <GamingVideoContainer key={id}>
           <GamingThumbnailImage src={thumbnailUrl} alt="video thumbnail" />
           <GamingTitleHeading isDarkMode={isDarkMode}>
@@ -165,22 +170,22 @@ class Gaming extends Component {
 
   render() {
     return (
-      <>
-        <Header />
-        <MainContainer>
-          <Filters />
-          <NxtWatchContext.Consumer>
-            {value => {
-              const {isDarkMode} = value
-              return (
-                <GamingContainer data-testid="gaming" isDarkMode={isDarkMode}>
+      <NxtWatchContext.Consumer>
+        {value => {
+          const {isDarkMode} = value
+          return (
+            <OuterContainer data-testid="gaming" isDarkMode={isDarkMode}>
+              <Header />
+              <MainContainer>
+                <Filters />
+                <GamingContainer isDarkMode={isDarkMode}>
                   {this.renderResult(isDarkMode)}
                 </GamingContainer>
-              )
-            }}
-          </NxtWatchContext.Consumer>
-        </MainContainer>
-      </>
+              </MainContainer>
+            </OuterContainer>
+          )
+        }}
+      </NxtWatchContext.Consumer>
     )
   }
 }

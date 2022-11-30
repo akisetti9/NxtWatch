@@ -2,8 +2,10 @@ import {Component} from 'react'
 import ReactPlayer from 'react-player'
 import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
-import Header from '../Header'
+import {AiOutlineLike, AiOutlineDislike} from 'react-icons/ai'
+import {MdPlaylistAdd} from 'react-icons/md'
 
+import Header from '../Header'
 import Filters from '../Filters'
 
 import './index.css'
@@ -15,12 +17,16 @@ import {
   FailureHeading,
   FailureMsg,
   RetryBtn,
+  PlayerContainer,
   DetailsContainer,
   CountAndDate,
   LikeAndSave,
   DescriptionContainer,
   ChannelLogo,
   Description,
+  LikedButton,
+  LikeButton,
+  ReactPlayerContainer,
 } from './styledComponents'
 import NxtWatchContext from '../../context/NxtWatchContext'
 
@@ -35,6 +41,9 @@ class VideItemDetails extends Component {
   state = {
     apiStatus: apiStatusConstants.initial,
     videoItemDetails: [],
+    isLiked: false,
+    isDisliked: false,
+    isSaved: false,
   }
 
   componentDidMount() {
@@ -88,6 +97,32 @@ class VideItemDetails extends Component {
     this.getVideoItemData()
   }
 
+  onClickLike = () => {
+    const {isLiked, isDisliked} = this.state
+    if (isLiked === false) {
+      if (isDisliked) {
+        this.setState({isLiked: true, isDisliked: false})
+      } else {
+        this.setState({isLiked: true})
+      }
+    } else {
+      this.setState({isLiked: false})
+    }
+  }
+
+  onClickDislike = () => {
+    const {isLiked, isDisliked} = this.state
+    if (isDisliked === false) {
+      if (isLiked) {
+        this.setState({isDisliked: true, isLiked: false})
+      } else {
+        this.setState({isDisliked: true})
+      }
+    } else {
+      this.setState({isDisliked: false})
+    }
+  }
+
   renderLoadingView = () => (
     <div data-testid="loader" className="products-loader-container">
       <Loader type="ThreeDots" color="#0b69ff" height="50" width="50" />
@@ -113,31 +148,54 @@ class VideItemDetails extends Component {
       <FailureMsg isDarkMode={isDarkMode}>
         We are having some trouble to complete your request. Please try again.
       </FailureMsg>
-      <RetryBtn type="button" onClick={this.onClickRetry}>
+      <RetryBtn
+        data-testid="retryButton"
+        type="button"
+        onClick={this.onClickRetry}
+      >
         Retry
       </RetryBtn>
     </FailureContainer>
   )
 
-  renderVideo = isDarkMode => {
+  updateStatus = savedVideoList => {
     const {videoItemDetails} = this.state
+    const {id} = videoItemDetails
+    const updatedSavedVideoList = savedVideoList.filter(each => each.id === id)
+    console.log(updatedSavedVideoList)
+    //   if (updatedSavedVideoList.length === 1) {
+    //     this.setState({
+    //       isLiked: updatedSavedVideoList.isLiked,
+    //       isDisliked: updatedSavedVideoList.isDisliked,
+    //       isSaved: updatedSavedVideoList.isSaved,
+    //     })
+    //   }
+  }
+
+  renderVideo = props => {
+    const {isDarkMode, savedVideosList, onSaveVideoDetails} = props
+    const {videoItemDetails, isLiked, isDisliked, isSaved} = this.state
+    console.log(savedVideosList)
     const {
-      id,
       title,
       videoUrl,
-      thumbnailUrl,
       channel,
       viewCount,
       publishedAt,
       description,
     } = videoItemDetails
     const {name, profileImageUrl, subscriberCount} = channel
-    console.log(isDarkMode)
-    console.log(id, title, thumbnailUrl, viewCount, publishedAt, description)
-    console.log(name, profileImageUrl, subscriberCount)
+    const onClickSave = () => {
+      this.setState(prevState => ({
+        isSaved: !prevState.isSaved,
+      }))
+      onSaveVideoDetails(videoItemDetails)
+    }
     return (
-      <>
-        <ReactPlayer url={videoUrl} />
+      <PlayerContainer>
+        <ReactPlayerContainer>
+          <ReactPlayer width="100%" url={videoUrl} />
+        </ReactPlayerContainer>
         <p>{title}</p>
         <DetailsContainer>
           <CountAndDate>
@@ -145,28 +203,87 @@ class VideItemDetails extends Component {
             <p>{publishedAt}</p>
           </CountAndDate>
           <LikeAndSave>
-            <p>Like</p>
-            <p>Dislike</p>
-            <p>Save</p>
+            {isLiked ? (
+              <LikedButton type="button" onClick={this.onClickLike}>
+                <AiOutlineLike className="blue-icon" />
+                Like
+              </LikedButton>
+            ) : (
+              <LikeButton
+                type="button"
+                isDarkMode={isDarkMode}
+                onClick={this.onClickLike}
+              >
+                {isDarkMode ? (
+                  <AiOutlineLike className="white-icon" />
+                ) : (
+                  <AiOutlineLike className="black-icon" />
+                )}
+                Like
+              </LikeButton>
+            )}
+            {isDisliked ? (
+              <LikedButton type="button" onClick={this.onClickDislike}>
+                <AiOutlineDislike className="blue-icon" />
+                Dislike
+              </LikedButton>
+            ) : (
+              <LikeButton
+                type="button"
+                isDarkMode={isDarkMode}
+                onClick={this.onClickDislike}
+              >
+                {isDarkMode ? (
+                  <AiOutlineDislike className="white-icon" />
+                ) : (
+                  <AiOutlineDislike className="black-icon" />
+                )}
+                Dislike
+              </LikeButton>
+            )}
+            {isSaved ? (
+              <LikedButton type="button" onClick={onClickSave}>
+                <MdPlaylistAdd className="blue-icon" />
+                Saved
+              </LikedButton>
+            ) : (
+              <LikeButton
+                type="button"
+                isDarkMode={isDarkMode}
+                onClick={onClickSave}
+              >
+                {isDarkMode ? (
+                  <MdPlaylistAdd className="white-icon" />
+                ) : (
+                  <MdPlaylistAdd className="black-icon" />
+                )}
+                Save
+              </LikeButton>
+            )}
           </LikeAndSave>
         </DetailsContainer>
         <DescriptionContainer>
-          <ChannelLogo src={profileImageUrl} />
+          <ChannelLogo src={profileImageUrl} alt="channel logo" />
           <Description>
             <p>{name}</p>
             <p>{subscriberCount} subscribers</p>
             <p>{description}</p>
           </Description>
         </DescriptionContainer>
-      </>
+      </PlayerContainer>
     )
   }
 
-  renderResult = isDarkMode => {
+  renderResult = props => {
+    const {isDarkMode, savedVideosList, onSaveVideoDetails} = props
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderVideo(isDarkMode)
+        return this.renderVideo({
+          isDarkMode,
+          savedVideosList,
+          onSaveVideoDetails,
+        })
       case apiStatusConstants.failure:
         return this.renderFailureView(isDarkMode)
       case apiStatusConstants.inProgress:
@@ -184,13 +301,17 @@ class VideItemDetails extends Component {
           <Filters />
           <NxtWatchContext.Consumer>
             {value => {
-              const {isDarkMode} = value
+              const {isDarkMode, savedVideosList, onSaveVideoDetails} = value
               return (
                 <VideoItemContainer
-                  data-testid="gaming"
+                  data-testid="videoItemDetails"
                   isDarkMode={isDarkMode}
                 >
-                  {this.renderResult(isDarkMode)}
+                  {this.renderResult({
+                    isDarkMode,
+                    savedVideosList,
+                    onSaveVideoDetails,
+                  })}
                 </VideoItemContainer>
               )
             }}

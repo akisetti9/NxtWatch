@@ -4,7 +4,9 @@ export const NavHeader = styled.nav`
   background-color: ${props => (props.isDarkMode ? '#1e293b' : '#ffffff')};
   color: ${props => (props.isDarkMode ? '#ffffff' : '#000000')};
   display: flex;
-  padding-bottom: 12px;
+  position: fixed;
+  padding: auto;
+  height: 60px;
   justify-content: center;
   border-bottom: 1px solid rgb(243, 243, 243);
   @media screen and (max-width: 767px) {
@@ -54,11 +56,11 @@ export const WebsiteLogo = styled.img`
   }
 `
 
-export const NavMenu = styled.ul`
+export const NavMenu = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  align-self: flex-end;
+  align-items: center;
   flex: 1;
   list-style-type: none;
   margin-top: 0px;
@@ -68,7 +70,7 @@ export const NavMenu = styled.ul`
   }
 `
 
-export const NavMenuListMobile = styled.ul`
+export const NavMenuListMobile = styled.div`
   width: 30%;
   display: flex;
   flex-direction: row;
@@ -79,15 +81,15 @@ export const NavMenuListMobile = styled.ul`
   padding: 0px;
 `
 
-export const NavMenuItem = styled.li`
-  font-family: 'Roboto';
-  margin: 10px;
-  font-weight: 400;
-  font-size: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
+// export const NavMenuItem = styled.li`
+//   font-family: 'Roboto';
+//   margin: 10px;
+//   font-weight: 400;
+//   font-size: 16px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+// `
 
 // .nav-link {
 //   display: flex;
@@ -96,19 +98,22 @@ export const NavMenuItem = styled.li`
 //   color: #475569;
 // }
 
-export const NavMenuItemMobile = styled.li`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0px;
-  cursor: pointer;
-`
+// export const NavMenuItemMobile = styled.li`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   margin: 0px;
+//   cursor: pointer;
+// `
 
 export const LogoutDesktopBtn = styled.button`
   font-family: 'Roboto';
+  height: 40px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   font-weight: 400;
   font-size: 15px;
-  padding: 8px 16px;
+  padding: 2px 16px;
   color: ${props => (props.isDarkMode ? '#ffffff' : '#0967d2')};
   background-color: ${props => (props.isDarkMode ? 'transparent' : '#ffffff')};
   border-style: solid;
@@ -140,6 +145,8 @@ export const NavbarLgProfileThumbnailSize = styled.img`
 `
 export const NavLgBtn = styled.button`
   border: none;
+  margin-left: 8px;
+  margin-right: 8px;
   padding: 0px;
   background: transparent;
   cursor: pointer;
